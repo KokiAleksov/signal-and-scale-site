@@ -1,0 +1,243 @@
+/*
+ * Layout concept: the book cover, opened up into a page.
+ * Paper-white ground, a pencil sketch on the left, bold grotesque type on the
+ * right, and one orange sun. Chapters climb a ladder down from the sun.
+ * The site deliberately keeps the cover's light look in every theme.
+ */
+:root {
+  --paper: #ffffff;
+  --wash: #faf7f4;
+  --ink: #231f20;
+  --ink-soft: #4a4546;
+  --muted: #6e6869;
+  --pencil: #b9b4b2;
+  --rule: #e6e2df;
+  --sun: #d16b1e; /* the cover's orange: sun, accents, large type */
+  --sun-ink: #b4540e; /* same hue, dark enough for small text and buttons */
+  --sun-ink-hover: #96450b;
+  --sun-soft: #f8e9dc;
+  --night: #231f20;
+  --night-text: #d8d3d1;
+  --night-accent: #f0a46a;
+
+  --font-display: var(--font-archivo), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: var(--font-archivo), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-hand: var(--font-caveat), "Bradley Hand", "Segoe Print", cursive;
+
+  --step--1: clamp(0.84rem, 0.8rem + 0.15vw, 0.92rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
+  --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.55rem);
+  --step-2: clamp(1.6rem, 1.4rem + 1vw, 2.2rem);
+  --step-3: clamp(2.1rem, 1.6rem + 2.2vw, 3.2rem);
+  --step-4: clamp(2.6rem, 1.8rem + 4vw, 5rem);
+
+  --wrap: 1200px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --section-space: clamp(56px, 8vw, 112px);
+  --header-height: 64px;
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.08;
+  margin: 0;
+  text-wrap: balance;
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+::selection {
+  background: var(--sun-soft);
+}
+
+/* Layout primitives */
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-space);
+}
+
+.hand {
+  font-family: var(--font-hand);
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.eyebrow {
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: clamp(1.45rem, 1.3rem + 0.5vw, 1.75rem);
+  line-height: 1;
+  color: var(--ink-soft);
+}
+
+.section-head {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.section-title {
+  font-size: var(--step-2);
+  font-weight: 800;
+}
+
+/* Buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  font: 600 var(--step-0) / 1 var(--font-body);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--sun-ink);
+  border-color: var(--sun-ink);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--sun-ink-hover);
+  border-color: var(--sun-ink-hover);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+}
+
+.btn-outline:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn[aria-disabled="true"] {
+  border-style: dashed;
+  border-color: var(--pencil);
+  background: transparent;
+  color: var(--muted);
+  cursor: default;
+  transform: none;
+}
+
+/* Accessibility helpers */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
